@@ -18,6 +18,7 @@ require (
 	github.com/sigurn/crc8 v0.0.0-20160107002456-e55481d6f45c // indirect
 	github.com/sigurn/utils v0.0.0-20190728110027-e1fefb11a144 // indirect
 	github.com/sirupsen/logrus v1.7.0 // indirect
+	github.com/veandco/go-sdl2 v0.3.3 // indirect
 	go.bug.st/serial v1.1.1 // indirect
 	golang.org/x/sys v0.0.0-20201126233918-771906719818 // indirect
 	periph.io/x/periph v3.6.2+incompatible // indirect
