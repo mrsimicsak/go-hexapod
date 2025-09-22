@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"gobot.io/x/gobot"
 	"gobot.io/x/gobot/drivers/gpio"
 	"gobot.io/x/gobot/drivers/i2c"
@@ -22,18 +20,36 @@ func main() {
 	work := func() {
 		pca9685.SetPWMFreq(60)
 
+		var targetPos Vector3
+
+		stick.On(joystick.LeftX, func(data interface{}) {
+			rawData := data.(int16)
+
+			scaledData := float32(rawData) / 32768.0
+
+			scaledData2 := scaledData * 50.0
+
+			targetPos.X = float64(scaledData2)
+
+			angle0, angle1, angle2 := calcLegServoAngles(targetPos, 0, false)
+			FrontLeft.Servos[0].Move(uint8(angle0))
+			FrontLeft.Servos[1].Move(uint8(angle1))
+			FrontLeft.Servos[2].Move(uint8(angle2))
+		})
+
 		stick.On(joystick.LeftY, func(data interface{}) {
 			rawData := data.(int16)
 
 			scaledData := float32(rawData) / 32768.0
 
-			// scaledData2 := uint8((() * 255) + 128)
+			scaledData2 := scaledData * 100.0
 
-			scaledData2 := (scaledData * 90) + 90
+			targetPos.Y = float64(scaledData2)
 
-			fmt.Println("Raw: ", rawData, " Scaled: ", scaledData2)
-
-			FrontLeft.Servos[0].Move(uint8(scaledData2))
+			angle0, angle1, angle2 := calcLegServoAngles(targetPos, 0, false)
+			FrontLeft.Servos[0].Move(uint8(angle0))
+			FrontLeft.Servos[1].Move(uint8(angle1))
+			FrontLeft.Servos[2].Move(uint8(angle2))
 		})
 	}
 
